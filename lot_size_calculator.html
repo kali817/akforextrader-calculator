@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lot Size & Profit Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .calculator {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+      margin-bottom: 40px;
+    }
+    .calculator h2 {
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Lot Size Calculator ($10 Risk)</h2>
+    <div class="form-group">
+      <label for="risk">Risk Amount (USD):</label>
+      <input type="number" id="risk" placeholder="e.g. 10">
+    </div>
+    <div class="form-group">
+      <label for="sl">Stop Loss (Pips):</label>
+      <input type="number" id="sl" placeholder="e.g. 5">
+    </div>
+    <button class="btn" onclick="calculateLotSize()">Calculate Lot Size</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <div class="calculator">
+    <h2>Profit/Loss Calculator</h2>
+    <div class="form-group">
+      <label for="pips">Pips Gained/Lost:</label>
+      <input type="number" id="pips" placeholder="e.g. 20">
+    </div>
+    <div class="form-group">
+      <label for="lot">Lot Size (Standard):</label>
+      <input type="number" id="lot" placeholder="e.g. 0.1">
+    </div>
+    <button class="btn" onclick="calculateProfit()">Calculate Profit/Loss</button>
+    <div class="result" id="profitResult"></div>
+  </div>
+
+  <script>
+    function calculateLotSize() {
+      const risk = parseFloat(document.getElementById('risk').value);
+      const sl = parseFloat(document.getElementById('sl').value);
+      const pipValue = 10; // $10 per pip per standard lot for EUR/USD
+
+      if (!risk || !sl || sl === 0) {
+        document.getElementById('result').textContent = 'Please enter valid inputs';
+        return;
+      }
+
+      const lotSize = risk / (sl * pipValue);
+      document.getElementById('result').textContent = `Recommended Lot Size: ${lotSize.toFixed(2)} standard lots`;
+    }
+
+    function calculateProfit() {
+      const pips = parseFloat(document.getElementById('pips').value);
+      const lot = parseFloat(document.getElementById('lot').value);
+      const pipValue = 10; // $10 per pip per standard lot
+
+      if (!pips || !lot) {
+        document.getElementById('profitResult').textContent = 'Please enter valid inputs';
+        return;
+      }
+
+      const profit = pips * lot * pipValue;
+      document.getElementById('profitResult').textContent = `Estimated P/L: $${profit.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
